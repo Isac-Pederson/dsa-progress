@@ -1,22 +1,35 @@
 class Solution {
-    public boolean searchMatrix(int[][] matrix, int target) {
+    public int minEatingSpeed(int[] piles, int h) {
+        int r = 0;
 
+        for(int i = 0; i<piles.length; i++){
+            r = Math.max(r, piles[i]);
+        }
 
-        for(int i = 0; i < matrix.length; i++){
-            int l = 0;
-            int r = matrix[i].length-1;
-            while(l <= r){
-                int m = (l+r)/2;
-                if(matrix[i][m] < target){
-                    l = m+1;
-                }else if(matrix[i][m] > target){
-                    r = m-1;
-                }else{
-                    return true;
-                }
+        int l = 0;
+        int res = Integer.MAX_VALUE;
+
+        while(l<=r){
+            int k = (l+r)/2;
+            double hours = 0;
+
+            for(int i = 0; i<piles.length; i++){
+                hours = hours + (double) Math.ceil((double)piles[i] / (double) k);
+            }
+            if(hours > h){
+                l = k+1;
+            }else{
+                r = k-1;
+                res = Math.min(res,k);
             }
         }
-        return false;
 
+        return res;
+
+
+
+
+
+        
     }
 }
