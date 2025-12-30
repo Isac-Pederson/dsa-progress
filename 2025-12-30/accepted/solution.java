@@ -1,53 +1,51 @@
 class Solution {
-    public boolean checkInclusion(String s1, String s2) {
-        if(s1.length() > s2.length()){
-            return false;
+    public String minWindow(String s, String t) {
+        if(t.length() > s.length()){
+            return "";
         }
+        Map<Character, Integer> freq = new HashMap<>();
+        Map<Character, Integer> window = new HashMap<>();
 
-        int[] s1Count = new int[26];
-        int[] s2Count = new int[26];
 
-        for(int i = 0; i < s1.length(); i++){
-            s1Count[s1.charAt(i) - 'a']++;
-            s2Count[s2.charAt(i) - 'a']++;
-        }
-
-        int matches = 0;
-
-        for(int i = 0; i < 26; i++){
-            if(s1Count[i] == s2Count[i]){
-                matches++;
-            }
+        for(char c : t.toCharArray()){
+            freq.put(c,freq.getOrDefault(c,0)+1);
         }
 
         int l = 0;
-        for(int r = s1.length(); r < s2.length(); r++){
-            if(matches == 26){
-                return true;
-            }
+        int have = 0;
+        int need = freq.size();
+        int[] res = {-1,-1};
+        int resLen = Integer.MAX_VALUE;
 
+        for(int r =0; r < s.length(); r++){
+            char c =  s.charAt(r);
+            window.put(c,window.getOrDefault(c,0)+1);
             
-            int index = s2.charAt(r) - 'a';
-            s2Count[index]++;
-            if(s2Count[index] == s1Count[index]){
-                matches++;
-            }else if(s2Count[index] == s1Count[index] +1){
-                matches--;
+            if(freq.containsKey(c) && freq.get(c).equals(window.get(c))){
+                have++;
             }
             
-            index = s2.charAt(l) - 'a';
-            s2Count[index]--;
-            if(s2Count[index] == s1Count[index]){
-                matches++;
-            }else if(s2Count[index] == s1Count[index] -1){
-                matches--;
+            while(have == need){
+                if((r-l+1) < resLen){
+                    resLen = r-l+1;
+                    res[0] = l; 
+                    res[1] = r; 
+                }
+
+                char lc = s.charAt(l);
+                window.put(lc,window.get(lc)-1);
+                if(freq.containsKey(lc) && freq.get(lc) > window.get(lc)){
+                    have--;
+                }
+                l++;
             }
 
-            l++;
 
-        }
+        } 
 
-        return matches == 26;
-        
+        return resLen == Integer.MAX_VALUE ? "" : s.substring(res[0],res[1]+1);
+
+
+
     }
 }
