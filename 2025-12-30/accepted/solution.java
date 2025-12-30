@@ -1,39 +1,53 @@
 class Solution {
-    public int characterReplacement(String s, int k) {
-        HashSet<Character> set = new HashSet<>();
-        int longestSub = 0;
-
-        for(char c : s.toCharArray()){
-            set.add(c);
+    public boolean checkInclusion(String s1, String s2) {
+        if(s1.length() > s2.length()){
+            return false;
         }
 
-        for(char c : set){
-            int l = 0;
-            int count = 0;
-            
-            for(int r = 0; r < s.length(); r++){
-                if(s.charAt(r) == c){
-                    count++;
-                }
+        int[] s1Count = new int[26];
+        int[] s2Count = new int[26];
 
-                while((r-l+1) - count > k){
-                    if(s.charAt(l) == c){
-                        count--;
-                    }
+        for(int i = 0; i < s1.length(); i++){
+            s1Count[s1.charAt(i) - 'a']++;
+            s2Count[s2.charAt(i) - 'a']++;
+        }
 
-                    l++;
-                }
+        int matches = 0;
 
-                longestSub =  Math.max(longestSub, r-l+1);
-            
+        for(int i = 0; i < 26; i++){
+            if(s1Count[i] == s2Count[i]){
+                matches++;
+            }
+        }
+
+        int l = 0;
+        for(int r = s1.length(); r < s2.length(); r++){
+            if(matches == 26){
+                return true;
             }
 
+            
+            int index = s2.charAt(r) - 'a';
+            s2Count[index]++;
+            if(s2Count[index] == s1Count[index]){
+                matches++;
+            }else if(s2Count[index] == s1Count[index] +1){
+                matches--;
+            }
+            
+            index = s2.charAt(l) - 'a';
+            s2Count[index]--;
+            if(s2Count[index] == s1Count[index]){
+                matches++;
+            }else if(s2Count[index] == s1Count[index] -1){
+                matches--;
+            }
+
+            l++;
+
         }
 
-        return longestSub;
-
-
-
+        return matches == 26;
         
     }
 }
