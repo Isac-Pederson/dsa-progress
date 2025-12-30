@@ -1,34 +1,21 @@
 class Solution {
-    public int carFleet(int target, int[] position, int[] speed) {
-        Stack<Double> stack = new Stack<>();
-        int[][] pair = new int[position.length][2]; 
+    public int largestRectangleArea(int[] heights) {
+        int n = heights.length;
+        int max = 0;
+        Stack<Integer> stack = new Stack<>();
 
-        //create pair
-        for(int i = 0; i< position.length; i++){
-            pair[i] = new int[]{position[i], speed[i]};
-        }
-
-        //sort
-        Arrays.sort(pair,(a,b) -> Integer.compare(b[0], a[0]));
-
-        for(int i = 0; i < position.length; i++){
-            double steps = (double)(target - pair[i][0]) / pair[i][1];
-            System.out.println(steps);
-            if(stack.isEmpty()){
-                stack.push(steps);
-            }else{
-                if(steps > stack.peek()){
-                    stack.push(steps);
-                }
+        for(int i = 0; i <= n; i++){
+            while(!stack.isEmpty() && 
+            (i == n || heights[stack.peek()] >= heights[i])){
+                int h = heights[stack.pop()];
+                int w = stack.isEmpty() ? i : i - stack.peek() - 1;
+                max = Math.max(max, h*w);
             }
+            stack.push(i);
         }
 
+        return max;
         
-
-
-
-        return stack.size(); 
-
-        
+       
     }
 }
