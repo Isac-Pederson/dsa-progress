@@ -1,31 +1,30 @@
 class Solution {
 
-    public String encode(List<String> strs) {
-        StringBuilder res = new StringBuilder(); 
+    public int[] productExceptSelf(int[] nums) {
+        int[] suff = new int[nums.length];
+        int[] pref = new int[nums.length];
+        int[] res = new int[nums.length];
 
-        for(String w : strs){
-            res.append(w.length()).append('#').append(w);
+        pref[0] = 1;
+        suff[nums.length -1] = 1; 
+
+        for(int i = 1; i < nums.length; i++){
+            pref[i] = nums[i-1] * pref[i-1]; 
         }
-        return res.toString(); 
-    }
 
-    public List<String> decode(String str) {
-        List<String> res = new ArrayList<>();
-
-        int i = 0;
-        while(i < str.length()){
-            int j = i;
-            while(str.charAt(j) != '#'){
-                j++;
-            }
-            int length = Integer.parseInt(str.substring(i,j));
-            i = j + 1;
-            j = i + length;
-            res.add(str.substring(i,j));
-            i = j;
+        for(int i = nums.length-2; i >= 0; i--){
+            suff[i] = nums[i+1] * suff[i+1]; 
         }
+
+        for(int i = 0; i < nums.length; i++){
+            res[i] = pref[i] * suff[i]; 
+        }
+
 
 
         return res;
     }
-}
+
+
+
+}  
