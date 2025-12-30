@@ -1,26 +1,19 @@
 class Solution {
-    public int trap(int[] height) {
-        if(height.length == 0 || height == null){
-            return 0;
-        }
-        int res = 0;
-        int l = 0;
-        int r = height.length-1;
-        int maxLeft = height[l];
-        int maxRight = height[r];
+    public int maxProfit(int[] prices) {
+        int b = 0;
+        int s = 1;
+        int profit = 0;
 
-        while(l<r){
-            if(maxLeft < maxRight){
-                l++;
-                maxLeft = Math.max(maxLeft, height[l]);
-                res += maxLeft - height[l];
+        while(s < prices.length){
+            if(prices[s] > prices[b]){
+                profit = Math.max(profit, prices[s] - prices[b]);
             }else{
-                r--;
-                maxRight = Math.max(maxRight, height[r]);
-                res += maxRight - height[r];
+                b = s;
             }
+            s++;
         }
-        return res;
-        
+
+        return profit;
+
     }
 }
