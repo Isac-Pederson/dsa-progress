@@ -10,30 +10,29 @@
  */
 
 class Solution {
-    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        ListNode res = new ListNode();
-        ListNode current = res;
+    public boolean hasCycle(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
 
-        while(list1 != null && list2 != null){
-            if(list1.val < list2.val){
-                current.next = list1;
-                list1 = list1.next;
-            }else{
-                current.next = list2;
-                list2 = list2.next;
+        while(fast != null){
+            int count = 0;
+            while(count < 2){
+                if(fast == null){
+                    return false;
+                }
+                fast = fast.next;
+                count++;
             }
-            current = current.next;
+            slow = slow.next;
+
+            if(fast == slow){
+                return true;
+            }
         }
 
+        return false;
 
-        if(list1 != null){
-            current.next = list1;
-        }
-        else{
-            current.next = list2;
-        }
+
         
-
-        return res.next;
     }
 }
