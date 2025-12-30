@@ -1,28 +1,38 @@
 class Solution {
-    public boolean isValidSudoku(char[][] board) {
-        Map<Integer, Set<Character>> row = new HashMap<>();
-        Map<Integer, Set<Character>> col= new HashMap<>();
-        Map<String , Set<Character>> squares = new HashMap<>();
+    public int longestConsecutive(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
 
-            for(int r = 0; r < 9;r++){
-                for(int c = 0; c < 9;c++){ 
-                    if(board[r][c] == '.') continue;
+        if(nums == null || nums.length == 0){
+            return 0;
+        }
 
-                    String squareKey = (r / 3) + "," + (c / 3);
+        for(int n : nums){
+            set.add(n);
+        }
 
-                    if(row.computeIfAbsent(r,k -> new HashSet<>()).contains(board[r][c]) || 
-                        col.computeIfAbsent(c,k -> new HashSet<>()).contains(board[r][c]) || 
-                        squares.computeIfAbsent(squareKey,k -> new HashSet<>()).contains(board[r][c]) ){
-                        return false;
-                    }
+        int longest = 1;
+        int result = 1;
 
-                    row.get(r).add(board[r][c]);
-                    col.get(c).add(board[r][c]);
-                    squares.get(squareKey).add(board[r][c]);
-                }
+        for(int number : set){
+            if(set.contains(number - 1)){
+                continue;
             }
+            while(set.contains(number + 1)){
+                System.out.println(number);
+                longest++;
+                number = number+1;
+                System.out.println("NUMBER AFTER: " + number);
+            }
+            result = Math.max(longest,result);
+            longest = 1;
+        }
 
-        return true;
+        return result;
+
+        
+
+
+
         
     }
 }
