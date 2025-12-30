@@ -1,18 +1,32 @@
 class Solution {
-    public List<List<String>> groupAnagrams(String[] strs) {
-        Map<String, List<String>> res = new HashMap<>();
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>(); 
+        List<Integer>[] freq = new List[nums.length+1] ;
 
-        for(String w : strs){
-            int[] count =  new int[26]; 
-            for(char c : w.toCharArray()){
-                count[c - 'a']++;
-            }
-
-            String key = Arrays.toString(count);
-            res.putIfAbsent(key, new ArrayList<>());
-            res.get(key).add(w);
+        for(int i = 0; i < freq.length; i++){
+            freq[i] = new ArrayList<>();
         }
 
-        return new ArrayList<>(res.values());         
+        for(int n : nums){
+            map.put(n, map.getOrDefault(n,0) + 1); 
+        }
+
+        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+            freq[entry.getValue()].add(entry.getKey());
+        }
+
+        int[] res = new int[k];
+        int index = 0;
+        for(int i = freq.length -1; i > 0 && index < k; i--){
+           for(int n : freq[i]){
+            res[index++] = n;
+            if(index == k){
+                 return res;
+            } 
+           } 
+
+        }
+
+        return new int[0];
     }
 }
