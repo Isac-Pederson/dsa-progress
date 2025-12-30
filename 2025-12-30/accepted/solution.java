@@ -10,29 +10,51 @@
  */
 
 class Solution {
-    public boolean hasCycle(ListNode head) {
-        ListNode slow = head;
-        ListNode fast = head;
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode curr = head;
+        ListNode prev = null;
 
-        while(fast != null){
-            int count = 0;
-            while(count < 2){
-                if(fast == null){
-                    return false;
+        while(curr != null){
+            ListNode temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
+        }
+
+
+        int count = 1;
+        curr = prev;
+        ListNode prev2 = prev;
+        while(prev2 != null){
+            if(n == count){
+                if(n == 1){
+                    prev = prev2.next;
+                    break;
                 }
-                fast = fast.next;
+                prev2.next = curr.next;
+                curr.next = null;
+                break;
+            }else{
+                curr = curr.next;
                 count++;
-            }
-            slow = slow.next;
-
-            if(fast == slow){
-                return true;
+                if(count > 2){
+                    prev2 = prev2.next;
+                }
             }
         }
 
-        return false;
+        curr = prev;
+        ListNode res = null;
+        while(curr != null){
+            ListNode temp = curr.next;
+            curr.next = res;
+            res = curr;
+            curr = temp;
+        }
 
 
-        
+        return res;
+
+
     }
 }
