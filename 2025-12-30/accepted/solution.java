@@ -1,60 +1,41 @@
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
+/*
+// Definition for a Node.
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+*/
 
 class Solution {
-    public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode curr = head;
-        ListNode prev = null;
+    public Node copyRandomList(Node head) {
+        HashMap<Node,Node> oldCopy = new HashMap();
+        oldCopy.put(null,null);
+
+        Node curr = head;
 
         while(curr != null){
-            ListNode temp = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = temp;
+            oldCopy.put(curr, new Node(curr.val));
+            curr = curr.next;
         }
 
+        curr = head;
 
-        int count = 1;
-        curr = prev;
-        ListNode prev2 = prev;
-        while(prev2 != null){
-            if(n == count){
-                if(n == 1){
-                    prev = prev2.next;
-                    break;
-                }
-                prev2.next = curr.next;
-                curr.next = null;
-                break;
-            }else{
-                curr = curr.next;
-                count++;
-                if(count > 2){
-                    prev2 = prev2.next;
-                }
-            }
-        }
-
-        curr = prev;
-        ListNode res = null;
         while(curr != null){
-            ListNode temp = curr.next;
-            curr.next = res;
-            res = curr;
-            curr = temp;
+            Node copy = oldCopy.get(curr);
+            copy.next = oldCopy.get(curr.next);
+            copy.random = oldCopy.get(curr.random);
+            curr = curr.next;
         }
 
+        return oldCopy.get(head);
 
-        return res;
-
-
+        
     }
 }
