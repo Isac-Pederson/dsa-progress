@@ -10,17 +10,30 @@
  */
 
 class Solution {
-    public ListNode reverseList(ListNode head) {
-        ListNode prev = null;
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode res = new ListNode();
+        ListNode current = res;
 
-        while(head != null){
-            ListNode temp = head.next;
-            head.next = prev;
-            prev = head;
-            head = temp;
+        while(list1 != null && list2 != null){
+            if(list1.val < list2.val){
+                current.next = list1;
+                list1 = list1.next;
+            }else{
+                current.next = list2;
+                list2 = list2.next;
+            }
+            current = current.next;
         }
 
-        return prev;
 
+        if(list1 != null){
+            current.next = list1;
+        }
+        else{
+            current.next = list2;
+        }
+        
+
+        return res.next;
     }
 }
