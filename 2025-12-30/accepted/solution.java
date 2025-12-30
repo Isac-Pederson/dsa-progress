@@ -1,34 +1,27 @@
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-
 class Solution {
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        int carry = 0;
-        ListNode res = new ListNode();
-        ListNode curr = res;
-        
-        while(l1 != null || l2 != null || carry != 0){
-            int v1 = (l1 == null) ? 0 : l1.val;  
-            int v2 = (l2 == null) ? 0 : l2.val;  
+    public int findDuplicate(int[] nums) {
+        int fast = 0;
+        int slow = 0;
 
-            int sum = v1 + v2 + carry;
-            carry =  Math.floorDiv(sum,10);
-            sum = sum % 10;
+        while(true){
+           slow = nums[slow];
+           fast = nums[nums[fast]];
 
-            curr.next = new ListNode(sum, null);
-            curr = curr.next;
-            l1 = (l1 == null) ? null : l1.next; 
-            l2 = (l2 == null) ? null : l2.next; 
+           if(slow == fast){
+               break; 
+           }
         }
 
-        return res.next;
+        int slow2 = 0;
+        while(true){
+            slow = nums[slow];
+            slow2 = nums[slow2];
+            if(slow == slow2){
+                return slow;
+            }
+        }
+
+
+
     }
 }
