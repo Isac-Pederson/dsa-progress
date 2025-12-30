@@ -1,23 +1,28 @@
 class Solution {
-    public int[] maxSlidingWindow(int[] nums, int k) {
-        PriorityQueue<int[]> heap = new PriorityQueue<>((a,b) -> b[0] - a[0]);
-        int[] res = new int[nums.length-k+1];
-        int index = 0;
+    public boolean isValid(String s) {
+        Map<Character, Character> map = new HashMap<>();
+        map.put('}', '{');
+        map.put(')', '(');
+        map.put(']', '[');
+
+        Stack<Character> stack = new Stack<>();
 
 
-        for(int i = 0; i < nums.length; i++){
-            heap.offer(new int[]{nums[i], i});
-            if(i >= k-1){
-                while(heap.peek()[1] <= i-k){
-                    heap.poll();
+        for(char c : s.toCharArray()){
+            if(map.containsKey(c)){
+                if(stack.isEmpty()){
+                    return false;
                 }
-                res[index++] = heap.peek()[0];
+                char val = stack.pop();
+                if(map.get(c) != val ){
+                    return false;
+                }
+            }else{
+                stack.push(c);
             }
         }
 
-        return res;
-
-
+        return stack.size() == 0;
         
     }
 }
