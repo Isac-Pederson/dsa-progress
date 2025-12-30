@@ -1,19 +1,34 @@
 class Solution {
-    public int[] dailyTemperatures(int[] temperatures) {
+    public int carFleet(int target, int[] position, int[] speed) {
+        Stack<Double> stack = new Stack<>();
+        int[][] pair = new int[position.length][2]; 
 
-        int[] res = new int[temperatures.length];
-        Stack<int[]> stack = new Stack<>();
-
-
-        for(int i = 0; i < temperatures.length; i++){
-            int t = temperatures[i];
-            while(!stack.isEmpty() && t > stack.peek()[0]){
-                int[] pair = stack.pop();
-                res[pair[1]] = i - pair[1];
-            }
-            stack.push(new int[]{t,i});
+        //create pair
+        for(int i = 0; i< position.length; i++){
+            pair[i] = new int[]{position[i], speed[i]};
         }
-        return res;
+
+        //sort
+        Arrays.sort(pair,(a,b) -> Integer.compare(b[0], a[0]));
+
+        for(int i = 0; i < position.length; i++){
+            double steps = (double)(target - pair[i][0]) / pair[i][1];
+            System.out.println(steps);
+            if(stack.isEmpty()){
+                stack.push(steps);
+            }else{
+                if(steps > stack.peek()){
+                    stack.push(steps);
+                }
+            }
+        }
+
+        
+
+
+
+        return stack.size(); 
+
         
     }
 }
