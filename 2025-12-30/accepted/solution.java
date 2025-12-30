@@ -1,21 +1,20 @@
 class Solution {
-    public int largestRectangleArea(int[] heights) {
-        int n = heights.length;
-        int max = 0;
-        Stack<Integer> stack = new Stack<>();
+    public int search(int[] nums, int target) {
+        int l = 0;
+        int r = nums.length-1;
 
-        for(int i = 0; i <= n; i++){
-            while(!stack.isEmpty() && 
-            (i == n || heights[stack.peek()] >= heights[i])){
-                int h = heights[stack.pop()];
-                int w = stack.isEmpty() ? i : i - stack.peek() - 1;
-                max = Math.max(max, h*w);
+        while(l <= r){
+            int m =l + (int)Math.floor((r-l)/2);
+            if(nums[m] < target){
+                l = m+1;
+            }else if(nums[m] > target){
+                r = m-1;
+            }else{
+                return m;
             }
-            stack.push(i);
         }
 
-        return max;
+        return -1;
         
-       
     }
 }
