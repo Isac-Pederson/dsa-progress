@@ -1,31 +1,55 @@
-class Solution {
-    public int search(int[] nums, int target) {
+class TimeMap {
+    Map<String, List<Pair<Integer,String>>> m;
+
+    public TimeMap() {
+        m = new HashMap<>();
+    }
+    
+    public void set(String key, String value, int timestamp) {
+        m.computeIfAbsent(key, k -> new ArrayList<>()).add(new Pair<>(timestamp, value));
+    }
+    
+    public String get(String key, int timestamp) {
+        List<Pair<Integer, String>> values = m.getOrDefault(key, new ArrayList<>());
+        int r = values.size() -1;
         int l = 0;
-        int r = nums.length-1;
+        String res = "";
 
         while(l<=r){
-            int m = (l+r)/2;
-            if(nums[m] == target){
-                return m;
+            int m = (l + r) / 2;
+            if(values.get(m).getKey() <= timestamp){
+                res = values.get(m).getValue(); 
+                l = m+1;
+            }else{
+                r = m-1;
             }
-
-            if(nums[m] >= nums[l]){
-                if(nums[l] <= target && target <= nums[m]){
-                    r = m-1;
-                }else{
-                    l=m+1;
-                }
-            }else if(nums[r] >= nums[r]){
-                if(nums[m] <= target && target <= nums[r]){
-                    l = m+1;
-                }else{
-                    r=m-1;
-                }
-            }
-
         }
 
-        return -1;
+        return res;
+
+
         
     }
+
+
+}
+
+class Pair<K,V>{
+    final K k;
+    final V v;
+
+    public Pair(K key, V value){
+        this.k = key;
+        this.v = value;
+    }
+
+    public K getKey(){
+        return k;
+    }
+
+    public V getValue(){
+        return v;
+    }
+
+
 }
