@@ -1,32 +1,31 @@
 class Solution {
-    public int[] topKFrequent(int[] nums, int k) {
-        Map<Integer, Integer> map = new HashMap<>(); 
-        List<Integer>[] freq = new List[nums.length+1] ;
 
-        for(int i = 0; i < freq.length; i++){
-            freq[i] = new ArrayList<>();
+    public String encode(List<String> strs) {
+        StringBuilder res = new StringBuilder(); 
+
+        for(String w : strs){
+            res.append(w.length()).append('#').append(w);
+        }
+        return res.toString(); 
+    }
+
+    public List<String> decode(String str) {
+        List<String> res = new ArrayList<>();
+
+        int i = 0;
+        while(i < str.length()){
+            int j = i;
+            while(str.charAt(j) != '#'){
+                j++;
+            }
+            int length = Integer.parseInt(str.substring(i,j));
+            i = j + 1;
+            j = i + length;
+            res.add(str.substring(i,j));
+            i = j;
         }
 
-        for(int n : nums){
-            map.put(n, map.getOrDefault(n,0) + 1); 
-        }
 
-        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
-            freq[entry.getValue()].add(entry.getKey());
-        }
-
-        int[] res = new int[k];
-        int index = 0;
-        for(int i = freq.length -1; i > 0 && index < k; i--){
-           for(int n : freq[i]){
-            res[index++] = n;
-            if(index == k){
-                 return res;
-            } 
-           } 
-
-        }
-
-        return new int[0];
+        return res;
     }
 }
