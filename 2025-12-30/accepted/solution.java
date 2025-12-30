@@ -1,22 +1,26 @@
 class Solution {
-    public int maxArea(int[] heights) {
-        int l = 0;
-        int r = heights.length-1;
+    public int trap(int[] height) {
+        if(height.length == 0 || height == null){
+            return 0;
+        }
         int res = 0;
+        int l = 0;
+        int r = height.length-1;
+        int maxLeft = height[l];
+        int maxRight = height[r];
 
-
-        while(l < r){
-            int length = Math.min(heights[l],heights[r]);
-            int width =  r - l;
-            int product = width * length;
-            if(res < product) res = product;
-            if(heights[l] < heights[r]){
+        while(l<r){
+            if(maxLeft < maxRight){
                 l++;
+                maxLeft = Math.max(maxLeft, height[l]);
+                res += maxLeft - height[l];
             }else{
                 r--;
+                maxRight = Math.max(maxRight, height[r]);
+                res += maxRight - height[r];
             }
         }
-
         return res;
+        
     }
 }
