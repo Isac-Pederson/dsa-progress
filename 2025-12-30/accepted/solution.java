@@ -1,23 +1,23 @@
 class Solution {
-    public boolean isPalindrome(String s) {
+    public int[] twoSum(int[] numbers, int target) {
         int left = 0;
-        int right = s.length()-1;
+        int right = numbers.length - 1;
 
         while(left < right){
-            while(!Character.isLetterOrDigit(s.charAt(right)) && left < right){
-                right--;
-            };
-            while(!Character.isLetterOrDigit(s.charAt(left)) && left < right){
-                left++;
-            };
-            if(Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right))){
-                return false;
+            System.out.println(right);
+            int currSum = numbers[left] + numbers[right];
+            if(currSum == target){
+                return new int[]{left+1, right+1};
             }
-            right--;
-            left++;
+            if(currSum < target){
+                left++;
+            }else{
+                right--;
+            }
         }
 
-        return true;
+
+        return new int[]{};
         
     }
 }
